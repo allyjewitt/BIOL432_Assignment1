@@ -1,0 +1,36 @@
+---
+title: "Regex.Rmd"
+author: "Ally Jewitt"
+date: "2023-02-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+MData<-read.csv("measurements.csv", header=T)
+```
+
+```{r}
+MData<-MData[-c(1:11)]
+head(MData)
+```
+```{r}
+library(dplyr)
+MData$Sp<-(Sp = gsub("^([[:alpha:]]).* (.*)", "\\1. \\2", MData$Organism))
+head(MData)
+```
+
+```{r}
+MData <- MData %>% 
+  select(Sp, everything()) %>% 
+  select(-c(Organism,X))
+head(MData)
+```
+
+```{r}
+write.csv(MData, "MeasShort.csv",row.names=TRUE)
+```
+
